@@ -11,6 +11,8 @@
     cpus {
         #address-cells = <1>;
         #size-cells = <0>;
+        // From the stock rolex DT timer node: clock-frequency = 0x0124f800.
+        timebase-frequency = <19200000>;
 
         cpu@0 {
             device_type = "cpu";
@@ -56,9 +58,11 @@
 
     timer {
         compatible = "arm,armv8-timer";
-        interrupts = <1 17 0xf08>,
-                     <1 18 0xf08>,
-                     <1 19 0xf08>,
-                     <1 20 0xf08>;
+        clock-frequency = <19200000>;
+        // Stock rolex DT: PPI 1..4, not the ARM default 13/14/11/10.
+        interrupts = <1 2 0xf08>,
+                     <1 3 0xf08>,
+                     <1 4 0xf08>,
+                     <1 1 0xf08>;
     };
 };
