@@ -1,0 +1,64 @@
+// Minimal MSM8917 SoC description for UniXNU device-tree assembly.
+// Peripheral nodes are added as drivers are ported. Values come from
+// UniXNU-rolex docs/hardware-inventory.md and the stock rolex DTB.
+// This file is a scaffold: it is not yet a complete board description.
+
+/ {
+    #address-cells = <2>;
+    #size-cells = <2>;
+    interrupt-parent = <&intc>;
+
+    cpus {
+        #address-cells = <1>;
+        #size-cells = <0>;
+
+        cpu@0 {
+            device_type = "cpu";
+            compatible = "arm,cortex-a53";
+            reg = <0x0>;
+            enable-method = "psci";
+        };
+        cpu@1 {
+            device_type = "cpu";
+            compatible = "arm,cortex-a53";
+            reg = <0x1>;
+            enable-method = "psci";
+        };
+        cpu@2 {
+            device_type = "cpu";
+            compatible = "arm,cortex-a53";
+            reg = <0x2>;
+            enable-method = "psci";
+        };
+        cpu@3 {
+            device_type = "cpu";
+            compatible = "arm,cortex-a53";
+            reg = <0x3>;
+            enable-method = "psci";
+        };
+    };
+
+    psci {
+        compatible = "arm,psci-1.0";
+        method = "smc";
+    };
+
+    intc: interrupt-controller@b000000 {
+        compatible = "arm,gic-400";
+        reg = <0x0 0x0b000000 0x0 0x1000>,
+              <0x0 0x0b002000 0x0 0x2000>,
+              <0x0 0x0b004000 0x0 0x2000>,
+              <0x0 0x0b006000 0x0 0x2000>;
+        interrupt-controller;
+        #interrupt-cells = <3>;
+        #address-cells = <0>;
+    };
+
+    timer {
+        compatible = "arm,armv8-timer";
+        interrupts = <1 17 0xf08>,
+                     <1 18 0xf08>,
+                     <1 19 0xf08>,
+                     <1 20 0xf08>;
+    };
+};

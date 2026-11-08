@@ -1,0 +1,12 @@
+schema_version = 2
+
+[soc]
+name = "MSM8917"
+description = "Qualcomm Snapdragon 425 (MSM8917): 4x Cortex-A53, GIC-400, eMMC 5.1, LPDDR3"
+# Hardware data source: the stock rolex DTB and the board inventory in UniXNU-rolex.
+source = "https://github.com/Fimallory/UniXNU-rolex/blob/main/docs/hardware-inventory.md"
+
+[components]
+# No shared MSM8917 component is published yet. ArmDTPlatform/ArmCpu and the
+# other generic components are selected by the device repository.
+include = []
