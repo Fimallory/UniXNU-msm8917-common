@@ -1,0 +1,16 @@
+--- a/osfmk/arm64/proc_reg.h
++++ b/osfmk/arm64/proc_reg.h
+@@ -531,7 +531,13 @@
+ #define SCTLR_EXTRA                               (0)
+ 
+ 
++/* The BCM2837 build configuration also targets Cortex-A53 on MSM8917.
++ * Without FEAT_PAN, SCTLR_EL1[23] is RES1, not programmable SPAN. */
++#if defined(BCM2837)
++#define SCTLR_RESERVED     ((3ULL << 28) | (1ULL << 23) | (1ULL << 20))
++#else
+ #define SCTLR_RESERVED     ((3ULL << 28) | (1ULL << 20))
++#endif
+ #if defined(HAS_APPLE_PAC)
+ 
+ // 31    PACIA_ENABLED AddPACIA and AuthIA functions enabled
