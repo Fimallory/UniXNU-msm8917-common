@@ -8,7 +8,7 @@ Current contents:
 - `dts/msm8917.dtsi`: minimal SoC description (CPUs, PSCI, GIC-400, ARMv8 timer)
   from the board hardware inventory. Peripheral nodes are still missing.
 - `configs/msm8917.config`: disables ARMv8.1 PAN on Cortex-A53 and selects
-  architectural timer entry.
+  architectural timer entry and validated DT panic-region discovery.
 - `patches/xnu/series`: Cortex-A53 SCTLR RES1 correction for the BCM2837
   source build configuration used by this port.
 
@@ -30,3 +30,10 @@ This is an architectural write-policy correction, not proof of the observed
 pre/post-MMU stopping cause. TCR0x22a51a251a selects4KiB pages,40-bit PA and
 38-bit VA, which are supported by Cortex-A53. Source reference:
 https://support.arm.com/documentation/ddi0500/j/System-Control/AArch64-register-descriptions/System-Control-Register--EL1
+
+The BCM2837 personality supplies Pi-specific panic-log PA0x3c0fc000, outside
+the acquired MSM8917 DRAM inventory. `CONFIG_XNU_DT_PANIC_REGION=y` selects
+the existing native-dt-panic-region patch's bounded DT discovery. No `pram`
+input means the optional old-panic probe returns without memory access; actual
+boot-video console initialization is retained. This is not an unconditional
+console/platform bypass or proof of the currently observed stopped instruction.
